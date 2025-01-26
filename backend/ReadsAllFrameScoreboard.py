@@ -155,7 +155,7 @@ def extract_text_from_roi(edge_image, roi_top_left, roi_bottom_right):
     roi = edge_image[int(roi_top_left[1]):int(roi_bottom_right[1]), int(roi_top_left[0]):int(roi_bottom_right[0])]
 
     # Use Tesseract to extract text from the region of interest
-    text = pytesseract.image_to_string(roi, config='--psm 6')  # Page segmentation mode 6 is for block text
+    text = pytesseract.image_to_string(roi, config='--psm 6 -c tessedit_char_whitelist="0123456789 "')  # Page segmentation mode 6 is for block text
 
     return text
 
