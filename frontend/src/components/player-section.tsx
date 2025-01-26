@@ -6,19 +6,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
-export default function PlayerSection() {
+
+
+export default function PlayerSection({ handleAddPlayer, handleRemovePlayer }: { handleAddPlayer: (player: string) => void, handleRemovePlayer: (index: number) => void }) {
   const [inputText, setInputText] = useState("")
   const [items, setItems] = useState<string[]>([])
 
   const handleAddItem = () => {
     if (inputText.trim() !== "") {
       setItems([...items, inputText.trim()])
+      handleAddPlayer(inputText.trim())
       setInputText("")
     }
   }
 
   const handleRemoveItem = (index: number) => {
     setItems(items.filter((_, i) => i !== index))
+    handleRemovePlayer(index)
   }
 
   return (
@@ -33,7 +37,7 @@ export default function PlayerSection() {
           onChange={(e) => setInputText(e.target.value)}
           className="h-[0px]"
         />
-        <Button onClick={handleAddItem} className="w-full">
+        <Button onClick={handleAddItem} className="w-full" variant={"sky"}>
           <Plus className="mr-2 h-4 w-4" /> Add to List
         </Button>
         {items.length > 0 && (

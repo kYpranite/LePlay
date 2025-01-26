@@ -21,10 +21,6 @@ export default function UploadSection() {
         console.log("Uploading file:", file)
     }
 
-    const handleCancel = () => {
-        setFile(null)
-    }
-
     
 
     return (
