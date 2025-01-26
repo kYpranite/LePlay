@@ -36,7 +36,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
             formData.append("players", JSON.stringify(players))
 
             try {
-                axios.post("http://localhost:8080/api/upload", formData)
+                axios.post("http://127.0.0.1:5000:/api/upload", formData)
                     .then((response) => {
                         if (response.status === 200) {
                             console.log("Video uploaded successfully!")

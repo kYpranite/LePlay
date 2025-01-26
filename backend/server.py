@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, flash
 
 import flask_uploads
 import os
+from flask_cors import CORS
 from flask_uploads import UploadSet
 
 
@@ -24,6 +25,7 @@ flask_uploads.configure_uploads(app, videos)
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
+    print("works")
     if request.method == 'POST' and 'video' in request.files:
         videos.save(request.files['video'])
         flash("Photo saved successfully.")
