@@ -1,5 +1,6 @@
 import google.generativeai as genai
 import time
+import os
 
 def configure(key: str) -> None:
     """
@@ -37,7 +38,7 @@ def generate(prompt: str, video_file: str) -> str:
     return response.candidates[0].content.parts[0].text
 
 
-def player_timestamp(file_name: str, players) -> None:
+def player_timestamp(file_name: str, players: list) -> str:
     """
     Similar functionality to run() but specifically asks for timestamps of when a 
     certain player- user inputted- is mentioned or highlighted in the video
@@ -54,13 +55,11 @@ def player_timestamp(file_name: str, players) -> None:
     return response
 
 
-def categorize(file_name: str) -> None:
+def categorize(video_file: str) -> str:
     """
     Similar functionality to run() but specifically asks gemini to categorize the type
     of play that is occuring on screen
     """
-    video_file = upload(file_name)
-    check_file(video_file)
     response = generate("What was the one most notable part of the video clip (with a [MM:SS] timestamp)? \
                         Categorize only by 3-pointer, dunk, layup, block, assist, steal.", 
                         video_file)
@@ -68,3 +67,19 @@ def categorize(file_name: str) -> None:
 
     return response
 
+def upload_all(directory: str):
+    """
+    Upload all files in the specified directory using upload()
+    """
+    video_list = []
+    for file_name in os.listdir(directory):
+        file_path = os.path.join(directory, file_name)
+        if os.path.isfile(file_path):
+            result = upload(file_path)
+            print(f"Uploaded {file_name}: {result}")
+            video_list.append(result)
+    return video_list
+
+def categorize_all(video_list: list):
+    for video_file in video_list:
+        categorize(video_file)
