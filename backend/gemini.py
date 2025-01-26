@@ -6,7 +6,7 @@ def configure(key: str) -> None:
     """
     Configures the API using given API key
     """
-    genai.configure(key)
+    genai.configure(api_key=key)
 
 
 def upload(file_name: str) -> str:
@@ -47,24 +47,21 @@ def run(key: str, file_name: str, prompt: str) -> None:
     4. Generates response based off given arguements for prompt and file_name
     5. Prints out the resposne to the query
     """
-    configure(key)
     video_file = upload(file_name)
     check_file(video_file)
     response = generate(prompt, video_file)
     print(response)
 
 
-def player_timestamp(key: str, file_name: str) -> None:
+def player_timestamp(key: str, file_name: str, players) -> None:
     """
     Similar functionality to run() but specifically asks for timestamps of when a 
     certain player- user inputted- is mentioned or highlighted in the video
     """
-    configure(key)
     video_file = upload(file_name)
     check_file(video_file)
-    player = input("What player do you want to see?: ")
-    response = generate(f"Give me the timestamps of when {player} is mentioned in the format of [MM:SS]-> {player}'s FIRST name {player}'s LAST name->category.\
-                         Nothing else other than that format should be outputted by you. Categorize only by 3-pointer, dunk, layup, block, assist, steal, or None.",
+    players = players.join(", ")
+    response = generate(f"Generate a list of 10 timestamps of when any of these following players are mentioned: {players}. Only timestamp moments in which there is a basketball highlight happening. A highlight would be a 3-pointer, dunk, layup, block, steal. Use only sports commentator mentions, do not base any timestamps on visual mentions ALONE. Do not include any clips where the scoreboard is NOT visible. The ten timestamps you choose for this player should be the most exciting ones based on style (for example a cool dunk). These timestamps should be formatted in [MM:SS]->{player}’s FIRST name {player}’s LAST name and ONLY in this format. For example: [03:45]->John Smith. Do not provide explanations, summaries, or notes. Only produce the formatted timestamps.",
                         video_file)
     print(response)
 
@@ -76,7 +73,6 @@ def categorize(key: str, file_name: str) -> None:
     Similar functionality to run() but specifically asks gemini to categorize the type
     of play that is occuring on screen
     """
-    configure(key)
     video_file = upload(file_name)
     check_file(video_file)
     response = generate("What was the one most notable part of the video clip (with a [MM:SS] timestamp)? \
