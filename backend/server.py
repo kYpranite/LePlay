@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, jsonify, flash, send_from_directory
 import subprocess
 import math
@@ -133,7 +132,8 @@ def get_clip(clip):
 
 @app.errorhandler(404)
 def not_found(error):
-    return jsonify({'error': 'Not Found'}), 404
+    return jsonify({"error": "Not Found"}), 404
+
 
 # Run the app
 if __name__ == '__main__':

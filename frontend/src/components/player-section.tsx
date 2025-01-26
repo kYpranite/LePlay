@@ -37,7 +37,7 @@ export default function PlayerSection({ handleAddPlayer, handleRemovePlayer }: {
           onChange={(e) => setInputText(e.target.value)}
           className="h-[0px]"
         />
-        <Button onClick={handleAddItem} className="w-full" variant={"sky"}>
+        <Button onClick={handleAddItem} className="w-full" variant={"customBlack"}>
           <Plus className="mr-2 h-4 w-4" /> Add to List
         </Button>
         {items.length > 0 && (

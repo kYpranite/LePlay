@@ -12,6 +12,6 @@ export default function UploadButton({ video }: { video: File | null }) {
         }
     }
     return (
-        <Button variant={"sky"} className="w-2/12" onClick={handleClick}>Upload</Button>
+        <Button variant={"customBlack"} className="w-2/12" onClick={handleClick}>Upload</Button>
     )
 }

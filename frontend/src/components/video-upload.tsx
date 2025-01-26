@@ -6,15 +6,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button"
 import { Upload, X } from "lucide-react"
 import axios from "axios"
-
+import { useNavigate } from "react-router-dom"
 
 
 export default function VideoUpload({ instruction, players }: { instruction: string, players: string[] }) {
+    const navigate = useNavigate()
     const [video, setVideo] = useState<File | null>(null)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
+    // const navigate = useNavigate()
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0]
+        console.log(file)
         if (file && file.type.startsWith("video/")) {
             setVideo(file)
             setPreviewUrl(URL.createObjectURL(file))
@@ -23,11 +27,11 @@ export default function VideoUpload({ instruction, players }: { instruction: str
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
-        accept: { "video/*": [] },
+        accept: { "video/mp4": [] },
         multiple: false,
     })
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         const formData = new FormData()
         if (video) {
             // Here you would typically send the video to your server
@@ -36,12 +40,17 @@ export default function VideoUpload({ instruction, players }: { instruction: str
             formData.append("players", JSON.stringify(players))
 
             try {
-                axios.post("http://127.0.0.1:5000:/api/upload", formData)
-                    .then((response) => {
-                        if (response.status === 200) {
-                            console.log("Video uploaded successfully!")
-                        }
-                    })
+
+                const response = await axios.post("http://127.0.0.1:5000/api/upload", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                if (response.status === 200) {
+                    console.log("Video uploaded successfully")
+                    navigate("/clips")
+
+                }
             } catch (error) {
                 console.error("Error uploading video:", error)
             }
