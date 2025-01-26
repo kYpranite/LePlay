@@ -6,3 +6,5 @@ cv2
 pathlib
 
 python-dotenv
+openai
+os
