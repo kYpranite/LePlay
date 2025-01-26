@@ -1,1 +1,6 @@
 flask
+opencv-python
+pytesseract
+
+cv2
+pathlib
