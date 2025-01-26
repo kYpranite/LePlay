@@ -14,10 +14,10 @@ def home():
     return "Welcome to the Flask server!"
     
 
-VIDEOS = tuple("mp4", "mov")
+VIDEOS = ["mp4"]
 print (VIDEOS)
 videos = UploadSet("videos", VIDEOS)
-app.config["UPLOADED_PHOTOS_DEST"] = "./media"
+app.config["UPLOADED_VIDEOS_DEST"] = "media/"
 app.config["SECRET_KEY"] = os.urandom(24)
 flask_uploads.configure_uploads(app, videos)
 
