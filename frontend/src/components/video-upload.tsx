@@ -40,6 +40,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
             formData.append("players", JSON.stringify(players))
 
             try {
+
                 const response = await axios.post("http://127.0.0.1:5000/api/upload", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',

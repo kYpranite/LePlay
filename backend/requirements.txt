@@ -1,2 +1,12 @@
 flask
+
 Flask-Reuploaded
+flask_cors
+opencv-python
+pytesseract
+cv2
+pathlib
+os
+dotenv
+python-dotenv
+openai
