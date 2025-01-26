@@ -1,18 +1,12 @@
 import google.generativeai as genai
 import time
-from dotenv import load_dotenv
-import os
-
-
-def configure():
-    load_dotenv()
 
 
 def configure(key: str) -> None:
     """
     Configures the API using given API key
     """
-    genai.configure(api_key=key)
+    genai.configure(key)
 
 
 def upload(file_name: str) -> str:
@@ -69,8 +63,12 @@ def player_timestamp(key: str, file_name: str) -> None:
     video_file = upload(file_name)
     check_file(video_file)
     player = input("What player do you want to see?: ")
-    response = generate(f"Give me the timestamps of when {player} is mentioned", video_file)
+    response = generate(f"Give me the timestamps of when {player} is mentioned in the format of [MM:SS]-> {player}'s FIRST name {player}'s LAST name->category.\
+                         Nothing else other than that format should be outputted by you. Categorize only by 3-pointer, dunk, layup, block, assist, steal, or None.",
+                        video_file)
     print(response)
+
+    return response
 
 
 def categorize(key: str, file_name: str) -> None:
@@ -81,19 +79,9 @@ def categorize(key: str, file_name: str) -> None:
     configure(key)
     video_file = upload(file_name)
     check_file(video_file)
-    response = generate("What happened in the video clip? Categorize only by 3 pointer, dunk, layup, block, assist, steal, etc.", 
+    response = generate("What was the one most notable part of the video clip (with a [MM:SS] timestamp)? \
+                        Categorize only by 3-pointer, dunk, layup, block, assist, steal.", 
                         video_file)
     print(response)
 
-
-def main() -> None:
-    key = os.getenv("key")
-    file_name =  input("Enter Video File: ")
-    prompt = input("Enter Prompt: ")
-    run(key, file_name, prompt)
-    player_timestamp(key, file_name)
-    categorize(key, file_name)
-
-
-if __name__ == "__main__":
-    main()
+    return response
