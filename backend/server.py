@@ -1,39 +1,37 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify, flash
 
-# Initialize Flask app
+import flask_uploads
+import os
+from flask_uploads import UploadSet
+
+
 app = Flask(__name__)
 
 # Default route
 @app.route('/')
 def home():
     return "Welcome to the Flask server!"
+    
 
-# Example GET route
-@app.route('/api/hello', methods=['GET'])
-def say_hello():
-    name = request.args.get('name', 'World')  # Get 'name' parameter from query string
-    return jsonify({'message': f'Hello, {name}!'})
+VIDEOS = tuple("mp4", "mov")
+print (VIDEOS)
+videos = UploadSet("videos", VIDEOS)
+app.config["UPLOADED_PHOTOS_DEST"] = "./media"
+app.config["SECRET_KEY"] = os.urandom(24)
+flask_uploads.configure_uploads(app, videos)
 
-# Example POST route
-@app.route('/api/echo', methods=['POST'])
-def echo():
-    data = request.json  # Parse JSON body
-    if not data:
-        return jsonify({'error': 'No JSON body provided'}), 400
-    return jsonify({'received': data})
 
-# Example route for processing data
-@app.route('/api/process', methods=['POST'])
-def process():
-    data = request.json
-    if not data or 'input' not in data:
-        return jsonify({'error': 'Invalid input'}), 400
+@app.route("/api/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST' and 'video' in request.files:
+        videos.save(request.files['video'])
+        flash("Photo saved successfully.")
+        return render_template('upload.html')
+    return render_template('upload.html')
+    
 
-    processed = data['input'].upper()  # Example processing: convert to uppercase
-    return jsonify({'processed': processed})
 
-# 404 Error handler
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({'error': 'Not Found'}), 404

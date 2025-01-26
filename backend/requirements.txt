@@ -1,6 +1,2 @@
 flask
-tensorflow
-librosa
-numpy
-ffmpeg
-tensorflow_hub
+Flask-Reuploaded
