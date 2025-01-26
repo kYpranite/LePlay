@@ -25,12 +25,10 @@ flask_uploads.configure_uploads(app, videos)
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
-    print("works")
     if request.method == 'POST' and 'video' in request.files:
         videos.save(request.files['video'])
-        flash("Photo saved successfully.")
-        return render_template('upload.html')
-    return render_template('upload.html')
+        return "Welcome to the Flask server!"
+    return
     
 
 
