@@ -37,22 +37,7 @@ def generate(prompt: str, video_file: str) -> str:
     return response.candidates[0].content.parts[0].text
 
 
-def run(key: str, file_name: str, prompt: str) -> None:
-    """
-    Runs the program in its entirety:
-    1. Configures the API key
-    2. Uploads the video with the file API
-    3. Checks that upload was successful
-    4. Generates response based off given arguements for prompt and file_name
-    5. Prints out the resposne to the query
-    """
-    video_file = upload(file_name)
-    check_file(video_file)
-    response = generate(prompt, video_file)
-    print(response)
-
-
-def player_timestamp(key: str, file_name: str, players) -> None:
+def player_timestamp(file_name: str, players) -> None:
     """
     Similar functionality to run() but specifically asks for timestamps of when a 
     certain player- user inputted- is mentioned or highlighted in the video
@@ -67,7 +52,7 @@ def player_timestamp(key: str, file_name: str, players) -> None:
     return response
 
 
-def categorize(key: str, file_name: str) -> None:
+def categorize(file_name: str) -> None:
     """
     Similar functionality to run() but specifically asks gemini to categorize the type
     of play that is occuring on screen
