@@ -1,6 +1,6 @@
 "use client" // Remove this if not using Next.js at all
 
-import { Layers, UserSquare2 } from "lucide-react"
+import { Layers, UserSquare2, Camera } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import {
@@ -14,6 +14,7 @@ import {
 const menuItems = [
   { icon: Layers, to: "/", label: "Home" },
   { icon: UserSquare2, to: "/clips", label: "Clips" },
+  { icon: Camera, to: "/highlights", label: "Highlights" },
 ]
 
 export default function AppSidebar() {
@@ -22,13 +23,12 @@ export default function AppSidebar() {
   const pathname = location.pathname
 
   return (
-    <Sidebar collapsible="none" className="w-[60px] bg-[#1a1a1a] border-r-0">
+    <Sidebar collapsible="none" className="top-0 left-0 fixed w-[72px] bg-[#1a1a1a] border-r-0 ">
       <SidebarContent className="py-4">
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.to}>
               <SidebarMenuButton asChild tooltip={item.label} className="w-full px-1">
-                {/* Use `to` instead of `href` */}
                 <Link
                   to={item.to}
                   className={cn(

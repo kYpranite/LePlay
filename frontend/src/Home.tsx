@@ -31,13 +31,14 @@ export default function App() {
 
   return (
     <SidebarProvider>
-      <div className="flex w-11/12">
-        <div >
+      <div className="flex w-full">
+        <div className='w-[72px]'>
           <AppSidebar />
         </div>
 
         {/* Main content gets the remaining space */}
-        <main className="flex-1 flex flex-col py-2 w-">
+        <main className="flex-1 flex flex-col overflow-y-auto">
+          <Hero />
           <VideoUpload instruction={instruction} players={players} />
           <div className="w-full px-4 flex m-0">
             <PlayerSection handleAddPlayer={handleAddPlayer} handleRemovePlayer={handleRemovePlayer} />

@@ -23,7 +23,7 @@ export default function VideoClip({ id, src, title, onSelect, isSelected }: Vide
         </video>
         <div className="p-4 flex justify-between items-center">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <Checkbox id={`select-clip-${id}`} checked={isSelected} onCheckedChange={() => onSelect(id)} />
+          <Checkbox id={`select-clip-${id}`} checked={isSelected} onCheckedChange={() => onSelect(id)}  />
         </div>
       </CardContent>
       {isSelected && <div className="absolute inset-0 bg-blue-200/20 pointer-events-none" />}
