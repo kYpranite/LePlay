@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, jsonify, flash
+from flask import Flask, render_template, request, jsonify, flash, send_from_directory
 import subprocess
 import math
 import os
@@ -26,6 +26,7 @@ def home():
 VIDEOS = ["mp4"]
 videos = UploadSet("videos", VIDEOS)
 app.config["UPLOADED_VIDEOS_DEST"] = "media/unprocessed"
+app.config["VIDEO_FOLDER"] = "media/clips"
 app.config["SECRET_KEY"] = os.urandom(24)
 chunk_duration = 20*60
 flask_uploads.configure_uploads(app, videos)
@@ -114,9 +115,7 @@ def processVideo(file_name, players):
         timestamps = get_timestamps(file, players)
         processed = process_timestamps(timestamps, file)
         createClips(processed, "./media/unprocessed/" + file_name)
-    return "Success"    
-    
-        
+    return "Success"        
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
@@ -127,6 +126,9 @@ def upload():
         return "Successful!!"
     return "Sad face"
     
+@app.route("/api/clips/<clip>")
+def get_clip(clip):
+    return send_from_directory(app.config["VIDEO_FOLDER"], clip)
 
 
 @app.errorhandler(404)
