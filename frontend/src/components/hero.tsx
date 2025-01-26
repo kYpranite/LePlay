@@ -9,7 +9,7 @@ export default function Hero() {
             {/* Background Video */}
             <div className="absolute inset-0 w-full h-full">
                 <video autoPlay loop muted className="w-full h-full object-cover opacity-50">
-                    <source src={heroCover} type="video/mp4" />
+                    {/* <source src={heroCover} type="video/mp4" /> */}
                 </video>
             </div>
 
@@ -34,12 +34,29 @@ export default function Hero() {
 
                 {/* Feature Highlights */}
                 <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {["Real-time Processing", "Multiple Games", "Customizable Feeds"].map((feature, index) => (
-                        <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                            <h3 className="text-xl font-semibold mb-2">{feature}</h3>
-                            <p className="text-gray-300">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            </p>
+                    {[
+                        {
+                            title: "Real-time Processing",
+                            description:
+                                "Stay ahead of the game with real-time analytics that keep your content up-to-date and your performance optimized.",
+                        },
+                        {
+                            title: "Multiple Games",
+                            description:
+                                "Easily manage and switch between multiple games, tailored to fit your style and preferences.",
+                        },
+                        {
+                            title: "Customizable Feeds",
+                            description:
+                                "Personalize your experience with feeds designed to show what matters most to you, all in one seamless view.",
+                        },
+                    ].map((feature, index) => (
+                        <div
+                            key={index}
+                            className="bg-white/10 backdrop-blur-sm rounded-lg p-6"
+                        >
+                            <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                            <p className="text-gray-300">{feature.description}</p>
                         </div>
                     ))}
                 </div>

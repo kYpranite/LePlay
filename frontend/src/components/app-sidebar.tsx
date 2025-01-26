@@ -14,7 +14,6 @@ import {
 const menuItems = [
   { icon: Layers, to: "/", label: "Home" },
   { icon: UserSquare2, to: "/clips", label: "Clips" },
-  { icon: Camera, to: "/highlights", label: "Highlights" },
 ]
 
 export default function AppSidebar() {

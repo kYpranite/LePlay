@@ -21,6 +21,21 @@ export default function VideoClipGrid({ onClipSelect, selectedClips }: VideoClip
 
 
   const [videoClips, setVideoClips] = useState<VideoClipProp[]>([])
+  // const handleSendSelectedToServer = async () => {
+  //   // Filter out the selected clip objects
+  //   const clipsToSend = videoClips.filter((clip) => selectedClips.includes(clip.id))
+
+  //   try {
+  //     // Example POST request with JSON body
+  //     const response = await axios.post("http://127.0.0.1:5050/api/handleSelectedClips", {
+  //       clips: clipsToSend,
+  //     })
+  //     console.log("Successfully sent clips:", response.data)
+  //   } catch (err) {
+  //     console.error("Failed to send selected clips:", err)
+  //   }
+  // }
+
   const fetchVideoClips = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:5000/api/get_all_clips")
@@ -61,7 +76,11 @@ export default function VideoClipGrid({ onClipSelect, selectedClips }: VideoClip
 
   return (
     <div className="flex flex-col justify-end">
-      <Button variant={"customBlack"} className="w-2/12" onClick={handleDownloadSelected}>Download Selected</Button>
+      <div className="flex gap-2">
+        <Button variant={"customBlack"} className="w-2/12" onClick={handleDownloadSelected}>Download Selected</Button>
+        {/* <Button variant={"customBlack"} className="w-2/12" onClick={handleSendSelectedToServer}>Generate Highlights</Button> */}
+      </div>
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-hidden relative border-solid border-gray-200 border-2 w-full rounded-2xl shadow-md p-10 my-3">
         {videoClips.map((clip) => (
