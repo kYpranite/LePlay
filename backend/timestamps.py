@@ -2,12 +2,10 @@ import json
 
 def create_name_timestamp(data: str) -> None:
     """
-    Given a predefined structure of AI generated data, create a JSON file
-    consisting of a list of dictionaries that track the following data...
+    Given a predefined structure of AI generated data, create a list of dictionaries that track the following data...
     1. Timestamp
     2. First Name
     3. Last Name
-    4. Category (type of play)
     """
     structured_data = []
     
@@ -27,6 +25,5 @@ def create_name_timestamp(data: str) -> None:
             "last_name": last_name
         })
 
-    with open("timestamps.json", "w") as file:
-        json.dump(structured_data, file, indent=4)
+    return structured_data
 
