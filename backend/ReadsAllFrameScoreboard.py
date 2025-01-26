@@ -141,24 +141,6 @@ def find_median_edge_location(edges):
     
     return (int(median_x), int(median_y))
 
-def extract_text_from_roi(edge_image, roi_top_left, roi_bottom_right):
-    """
-    Extract text from a specific area of the edge image using Tesseract OCR.
-    
-    :param edge_image: Binary edge-detected image (uint8)
-    :param roi_top_left: Tuple (x, y) representing the top-left corner of the ROI
-    :param roi_bottom_right: Tuple (x, y) representing the bottom-right corner of the ROI
-    :return: Extracted text from the defined region
-    """
-
-    # Crop the image to the ROI (Region of Interest)
-    roi = edge_image[int(roi_top_left[1]):int(roi_bottom_right[1]), int(roi_top_left[0]):int(roi_bottom_right[0])]
-
-    # Use Tesseract to extract text from the region of interest
-    text = pytesseract.image_to_string(roi, config='--psm 6 -c tessedit_char_whitelist="0123456789 "')  # Page segmentation mode 6 is for block text
-
-    return text
-
 def get_frame_size(frame):
     """
     Get the size (width and height) of the frame.
@@ -253,13 +235,11 @@ def main(video_path, num_frames=30):
 
         if ret:
             bottom_fourth = get_bottom_fourth(frame)  # Pass only the frame here
-            extracted_text = extract_text_from_roi(bottom_fourth, roi_top_left, roi_bottom_right)
 
             # Assuming 'frame' is the image you're working with
             # Draw the rectangle on the frame
             cv2.rectangle(bottom_fourth, roi_top_left, roi_bottom_right, (0, 255, 0), 2)  # (0, 255, 0) is the color green, and 2 is the thickness
 
-            print("Extracted Text:", extracted_text)
             cv2.imshow("Raw roi", bottom_fourth)
         else:
             print(f"Error reading frame at index {frame_indices[10]}")
