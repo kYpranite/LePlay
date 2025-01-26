@@ -37,7 +37,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
             // Here you would typically send the video to your server
             formData.append("video", video)
             formData.append("instruction", instruction)
-            formData.append("players", JSON.stringify(players))
+            formData.append("players", players.join(","))
 
             try {
 
@@ -68,7 +68,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Upload Video</CardTitle>
+                <CardTitle></CardTitle>
             </CardHeader>
             <CardContent>
                 <div

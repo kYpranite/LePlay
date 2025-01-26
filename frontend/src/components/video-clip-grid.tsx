@@ -23,7 +23,7 @@ export default function VideoClipGrid({ onClipSelect, selectedClips }: VideoClip
   const [videoClips, setVideoClips] = useState<VideoClipProp[]>([])
   const fetchVideoClips = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:5050/api/data")
+      const response = await axios.get("http://127.0.0.1:5000/api/get_all_clips")
       setVideoClips(response.data)
       console.log(response.data)
     } catch (error) {

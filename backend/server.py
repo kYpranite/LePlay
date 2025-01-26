@@ -13,8 +13,10 @@ from timestamps import *
 from Clip import Clip
 
 app = Flask(__name__)
-GEMINI_API_KEY = "AIzaSyDVmfRNFHR4aSvpsLg79qmBOcdENIvUpe8"
+GEMINI_API_KEY = "AIzaSyCVgq-Jir8Td3kSuzvTB-nA14BoXZgCa6c"
 configure(GEMINI_API_KEY)
+
+CORS(app)
 
 # Default route
 @app.route('/')
@@ -65,9 +67,9 @@ def split_video(path, chunk_duration, file_name):
         subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return chunk_names
     
-def get_timestamps(chunk_path, players):
+def get_timestamps(chunk_path, players, instructions):
     print("Generating timestamps")
-    timestamps = player_timestamp(chunk_path, players)
+    timestamps = player_timestamp(chunk_path, players, instructions)
     return create_name_timestamp(timestamps)
     
 def process_timestamps(timestamps, file_name):
@@ -108,10 +110,10 @@ def createClips(timestamps, original_path):
         subprocess.run(ffmpeg_command, check=True)
         print(timestamps)
 
-def processVideo(file_name, players):
+def processVideo(file_name, players, instructions):
     chunks = split_video("./media/unprocessed/" + file_name, chunk_duration, file_name)
     for file in chunks:
-        timestamps = get_timestamps(file, players)
+        timestamps = get_timestamps(file, players, instructions)
         processed = process_timestamps(timestamps, file)
         createClips(processed, "./media/unprocessed/" + file_name)
     return "Success"        
@@ -121,7 +123,11 @@ def upload():
     print(request)
     if request.method == 'POST' and 'video' in request.files:
         file_name = videos.save(request.files['video'])
-        processVideo(file_name, ["LeBron James", "Stephen Curry"])
+        players = request.form.get("players")
+        players = players.split(",")
+        instructions = request.form.get("instruction")
+
+        processVideo(file_name, players, instructions)
         return "Successful!!"
     return "Sad face"
     
@@ -129,6 +135,22 @@ def upload():
 def get_clip(clip):
     return send_from_directory(app.config["VIDEO_FOLDER"], clip)
 
+@app.route("/api/get_all_clips")
+def get_all_clips():
+    output = []
+    
+    clips = []
+    for file in os.listdir(app.config["VIDEO_FOLDER"]):
+        print(file)
+        url = f"http://localhost:5000/api/clips/{file}"
+        clips.append({
+            "id": random.randint(0, 999999999),
+            "src": url,
+            "title": file,
+        })
+    
+    
+    return jsonify(clips)
 
 @app.errorhandler(404)
 def not_found(error):

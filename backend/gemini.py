@@ -38,7 +38,7 @@ def generate(prompt: str, video_file: str) -> str:
     return response.candidates[0].content.parts[0].text
 
 
-def player_timestamp(file_name: str, players: list) -> str:
+def player_timestamp(file_name: str, players: list, instruction) -> str:
     """
     Similar functionality to run() but specifically asks for timestamps of when a 
     certain player- user inputted- is mentioned or highlighted in the video
@@ -48,8 +48,7 @@ def player_timestamp(file_name: str, players: list) -> str:
     check_file(video_file)
     players = ", ".join(players)
     print ("Prompting Gemini")
-    response = generate(f"Generate a list of 10 timestamps of when any of these following players are mentioned: {players}. Only timestamp moments in which there is a basketball highlight happening. A highlight would be a 3-pointer, dunk, layup, block, steal. Use only sports commentator mentions, do not base any timestamps on visual mentions ALONE. Do not include any clips where the scoreboard is NOT visible. Do NOT add timestamps for other players than the ones we mentioned. The ten timestamps you choose for these players should be the most exciting ones based on style (for example a cool dunk) and with a slight preference for scoring highlights. These timestamps should be formatted in [MM:SS]->FIRST name LAST name and ONLY in this format and ONLY for the specified players. For example: [03:45]->John Smith. Do not provide explanations, summaries, any other text, or notes. Only produce the formatted timestamps.",
-                        video_file)
+    response = generate(f"Generate a list of 10 timestamps of when any of these following players are mentioned: {players}. Only timestamp moments in which there is a basketball highlight happening. A highlight would be a 3-pointer, dunk, layup, block, steal. Place extra emphasis on these events or instructions if there are any after the colon: {instruction}. Use only sports commentator mentions, do not base any timestamps on visual mentions ALONE. Do not include any clips where the scoreboard is NOT visible. Do NOT add timestamps for other players than the ones we mentioned. The ten timestamps you choose for these players should be the most exciting ones based on style (for example a cool dunk) and with a slight preference for scoring highlights. These timestamps should be formatted in [MM:SS]->FIRST name LAST name and ONLY in this format and ONLY for the specified players. For example: [03:45]->John Smith. Do not provide explanations, summaries, any other text, or notes. Only produce the formatted timestamps.", video_file)
     print(response)
 
     return response

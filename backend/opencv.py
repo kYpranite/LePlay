@@ -2,8 +2,9 @@ import os
 import cv2
 import pytesseract
 from pathlib import Path
-from dotenv import load_dotenv
-from openai import OpenAI
+import google.generativeai as genai
+import json
+import re
 
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -98,19 +99,102 @@ def create_clips_data_list(dir_path):
     return output_list
 
 def create_clip_json(dir_path):
-    load_dotenv()
 
     clips_data_list = create_clips_data_list(dir_path)
 
-    with open('backend/chat_gpt_prompt.txt', 'r') as file:
+    with open('./chat_gpt_prompt.txt', 'r') as file:
         # Read the contents of the file
         gemini_input = file.read()
 
     print(gemini_input)
     gemini_input = str(gemini_input) + "\n\n" + str(clips_data_list)
 
-    print(gemini_input)
+    genai.configure(api_key="AIzaSyCgE7Gj8lu7-a2mTLfKUkzlln2OLhJ8E_k")
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(gemini_input)
+    print(response.text)
+    print(type(response))
+    print(type(response.text))
     
-    return
+    return response.text
 
-create_clip_json('media/')
+def score(quarter, team_a_score, team_b_score, time_remaining):
+    SCORE_WEIGHT = 0.5
+    QUARTER_WEIGHT = 0.3
+    TIME_REMAINING_WEIGHT = 0.2
+    
+    MAX_GAP = 30
+    
+    difference = abs(team_a_score - team_b_score) 
+    unscaled = 1-min(difference/MAX_GAP, 1)
+    total = team_a_score + team_b_score
+    scaling_factor = total/200
+    
+    score_factor = min(unscaled * scaling_factor,1)
+    quarter_factor = quarter/4
+    time_remaining_factor = 1 - time_remaining/720
+    
+
+        
+    return SCORE_WEIGHT*score_factor + QUARTER_WEIGHT*quarter_factor + TIME_REMAINING_WEIGHT*time_remaining_factor
+def convert_to_seconds(timestamp_str):
+    """
+    Converts a timestamp string in "MM:SS" format to total seconds.
+    """
+    if ":" in timestamp_str:
+        minutes, seconds = map(int, timestamp_str.split(":"))
+        return minutes * 60 + seconds
+    else:
+        return timestamp_str
+
+def clip_score_json(dir_path):
+    response = create_clip_json(dir_path)
+    clip_json = response.replace("```json","").replace("```","")
+    json_list = json.loads(clip_json)
+
+    print(type(json_list))
+    print(json_list)
+    print("HERE")
+    
+
+    # Regular expression to match JSON objects or arrays
+    # json_pattern = r"(\{.*?\}|\[.*?\])"
+
+    # Find all matches in the text
+    # json_matches = re.findall(json_pattern, clip_json, re.DOTALL)
+
+    # List to store valid JSON objects
+    # json_list = {
+    #     "videos": []
+    # }
+
+    # print(type(json_list))
+
+    # Process each JSON-like match
+    # for json_str in json_matches:
+    #     try:
+    #         Parse the JSON string to validate it
+    #         parsed_json = json.loads(json_str)
+    #         json_list["videos"].append(parsed_json)
+    #     except json.JSONDecodeError:
+    #         print(f"Invalid JSON found and skipped: {json_str[:50]}...")
+    # json_string = json.dumps(clip_json)
+    #json_list = json.loads(json_string)
+
+    print(type(json_list["videos"]))
+    
+    clip_score_json_object = {
+        "items": [] 
+    }
+
+    for vid in json_list["videos"]:
+        clip_score = score((int(vid["quarter"])),int(vid["score1"]),int(vid["score2"]),convert_to_seconds(vid["time"]))
+        new_item = {"path": vid["file_path"], "score": clip_score}
+        clip_score_json_object["items"].append(new_item)
+
+    return clip_score_json_object
+
+print("final")
+print(clip_score_json('./media/clips'))
+print("finished")
+
