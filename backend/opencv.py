@@ -1,6 +1,7 @@
 import cv2
 import pytesseract
 from pathlib import Path
+from dotenv import load_dotenv
 
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -64,7 +65,7 @@ def extract_scoreboard_at_frame(cap, frame=1):
     except:
         return -1
 
-def create_clip_json(dir_path):
+def create_clips_data_list(dir_path):
 
     vid_list = []
     dir_path = Path(dir_path)
@@ -92,7 +93,10 @@ def create_clip_json(dir_path):
     print(output_list)
     #json_output = jsonify(output_list)
     #print(json_output)
-    return
+    return output_list
+
+def create_clip_json(clips_data_list):
+    
 
 create_clip_json('media/')
 
