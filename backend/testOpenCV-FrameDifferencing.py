@@ -89,7 +89,7 @@ def main(video_path):
 
     while True:
         # Read every 5th frame
-        ret, frame = read_video_frame(cap, skip_frames=1)
+        ret, frame = read_video_frame(cap, skip_frames=15)
         if not ret:
             break  # Exit loop if no more frames
 
