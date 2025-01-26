@@ -1,6 +1,9 @@
+import os
 import cv2
 import pytesseract
 from pathlib import Path
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -64,7 +67,7 @@ def extract_scoreboard_at_frame(cap, frame=1):
     except:
         return -1
 
-def create_clip_json(dir_path):
+def create_clips_data_list(dir_path):
 
     vid_list = []
     dir_path = Path(dir_path)
@@ -92,7 +95,22 @@ def create_clip_json(dir_path):
     print(output_list)
     #json_output = jsonify(output_list)
     #print(json_output)
+    return output_list
+
+def create_clip_json(dir_path):
+    load_dotenv()
+
+    clips_data_list = create_clips_data_list(dir_path)
+
+    with open('backend/chat_gpt_prompt.txt', 'r') as file:
+        # Read the contents of the file
+        gemini_input = file.read()
+
+    print(gemini_input)
+    gemini_input = str(gemini_input) + "\n\n" + str(clips_data_list)
+
+    print(gemini_input)
+    
     return
 
 create_clip_json('media/')
-

@@ -4,3 +4,5 @@ pytesseract
 
 cv2
 pathlib
+os
+dotenv
