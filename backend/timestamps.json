@@ -1,0 +1,52 @@
+[
+    {
+        "timestamp": "00:15",
+        "first_name": "LeBron",
+        "last_name": "James"
+    },
+    {
+        "timestamp": "00:35",
+        "first_name": "LeBron",
+        "last_name": "James"
+    },
+    {
+        "timestamp": "00:44",
+        "first_name": "LeBron",
+        "last_name": "James"
+    },
+    {
+        "timestamp": "00:49",
+        "first_name": "Stephen",
+        "last_name": "Curry"
+    },
+    {
+        "timestamp": "01:02",
+        "first_name": "LeBron",
+        "last_name": "James"
+    },
+    {
+        "timestamp": "01:11",
+        "first_name": "Stephen",
+        "last_name": "Curry"
+    },
+    {
+        "timestamp": "03:04",
+        "first_name": "LeBron",
+        "last_name": "James"
+    },
+    {
+        "timestamp": "03:38",
+        "first_name": "Stephen",
+        "last_name": "Curry"
+    },
+    {
+        "timestamp": "05:06",
+        "first_name": "Stephen",
+        "last_name": "Curry"
+    },
+    {
+        "timestamp": "06:17",
+        "first_name": "LeBron",
+        "last_name": "James"
+    }
+]
