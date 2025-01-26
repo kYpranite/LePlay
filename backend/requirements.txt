@@ -4,5 +4,12 @@ pytesseract
 
 cv2
 pathlib
+<<<<<<< HEAD
 os
 dotenv
+=======
+
+python-dotenv
+openai
+os
+>>>>>>> 4f5fdd39f37ed8874c1af3f887ab84a98df26b0d
