@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "Lebron James",
+        "src": "http://127.0.0.1:5000/videos/lebron.mp4"
+    },
+    {
+        "id": 2,
+        "title": "Chris Paul",
+        "src": "http://127.0.0.1:5000/videos/CP3.mp4"
+    },
+    {
+        "id": 3,
+        "title": "Jeremy Lin",
+        "src": "http://127.0.0.1:5000/videos/jeremy.mp4"
+    },
+    {
+        "id": 4,
+        "title": "Steph Curry",
+        "src": "http://127.0.0.1:5000/videos/Steph.mp4"
+    }
+]

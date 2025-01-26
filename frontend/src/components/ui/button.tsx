@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
         link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
         sky: "bg-sky-900 text-neutral-50 shadow-sm hover:bg-sky-600/80 dark:bg-sky-900 dark:text-neutral-50 dark:hover:bg-sky-900/80",
+        customBlack: "bg-[#1a1a1a] text-neutral-50 shadow-sm hover:bg-[#1a1a1a]/80 dark:bg-[#1a1a1a] dark:text-neutral-50 dark:hover:bg-[#1a1a1a]/80",
       },
       size: {
         default: "h-9 px-4 py-2",
