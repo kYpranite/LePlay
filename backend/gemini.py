@@ -1,7 +1,6 @@
 import google.generativeai as genai
 import time
 
-
 def configure(key: str) -> None:
     """
     Configures the API using given API key
@@ -60,8 +59,8 @@ def player_timestamp(key: str, file_name: str, players) -> None:
     """
     video_file = upload(file_name)
     check_file(video_file)
-    players = players.join(", ")
-    response = generate(f"Generate a list of 10 timestamps of when any of these following players are mentioned: {players}. Only timestamp moments in which there is a basketball highlight happening. A highlight would be a 3-pointer, dunk, layup, block, steal. Use only sports commentator mentions, do not base any timestamps on visual mentions ALONE. Do not include any clips where the scoreboard is NOT visible. The ten timestamps you choose for this player should be the most exciting ones based on style (for example a cool dunk). These timestamps should be formatted in [MM:SS]->{player}’s FIRST name {player}’s LAST name and ONLY in this format. For example: [03:45]->John Smith. Do not provide explanations, summaries, or notes. Only produce the formatted timestamps.",
+    players = ", ".join(players)
+    response = generate(f"Generate a list of 10 timestamps of when any of these following players are mentioned: {players}. Only timestamp moments in which there is a basketball highlight happening. A highlight would be a 3-pointer, dunk, layup, block, steal. Use only sports commentator mentions, do not base any timestamps on visual mentions ALONE. Do not include any clips where the scoreboard is NOT visible. The ten timestamps you choose for these players should be the most exciting ones based on style (for example a cool dunk) and with a slight preference for scoring highlights. These timestamps should be formatted in [MM:SS]->FIRST name LAST name and ONLY in this format. For example: [03:45]->John Smith. Do not provide explanations, summaries, any other text, or notes. Only produce the formatted timestamps.",
                         video_file)
     print(response)
 
@@ -81,3 +80,4 @@ def categorize(key: str, file_name: str) -> None:
     print(response)
 
     return response
+
