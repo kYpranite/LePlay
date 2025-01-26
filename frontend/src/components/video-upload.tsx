@@ -13,8 +13,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
     const navigate = useNavigate()
     const [video, setVideo] = useState<File | null>(null)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-
-    // const navigate = useNavigate()
+    const [clicked, setClicked] = useState(false)
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0]
@@ -33,6 +32,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
 
     const handleUpload = async () => {
         const formData = new FormData()
+        setClicked(true)
         if (video) {
             // Here you would typically send the video to your server
             formData.append("video", video)
@@ -55,9 +55,6 @@ export default function VideoUpload({ instruction, players }: { instruction: str
                 console.error("Error uploading video:", error)
             }
         }
-
-
-
     }
 
     const handleClear = () => {
@@ -80,7 +77,6 @@ export default function VideoUpload({ instruction, players }: { instruction: str
                     {previewUrl ? (
                         <div className="w-2/9 mx-auto flex justify-center">
                             <video src={previewUrl} controls className="w-full h-full object-contain">
-                                Your browser does not support the video tag.
                             </video>
                         </div>
                     ) : (
@@ -107,7 +103,7 @@ export default function VideoUpload({ instruction, players }: { instruction: str
                             <X className="h-4 w-4 mr-2" />
                             Clear
                         </Button>
-                        <Button onClick={handleUpload} variant={"sky"}>
+                        <Button onClick={handleUpload} variant={"customBlack"} disabled={clicked}>
                             <Upload className="h-4 w-4 mr-2" />
                             Upload
                         </Button>
